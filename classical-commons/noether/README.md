@@ -11,6 +11,7 @@ From the repository root:
 python3 -m unittest discover -s classical-commons -p 'test_*.py' -v
 python3 classical-commons/check_pilot.py
 cd classical-commons/noether
+lake update
 lake exe cache get
 cd ../..
 python3 classical-commons/check_pilot.py --resolved
@@ -24,8 +25,8 @@ python3 classical-commons/check_pilot.py --axiom-log classical-commons/noether/A
 ```
 
 The dedicated GitHub workflow runs this sequence independently of the host
-build. Its action versions, direct dependency commits and toolchain are
-pinned. Dependency resolution must match the manifest's exact Git commits;
+build. Its checkout action, elan bootstrap source, direct dependency commits
+and Lean toolchain are pinned. Dependency resolution must match the manifest's exact Git commits;
 the three imported source files must also match their recorded Git blobs.
 
 `ClassicalCommonsNoether.lean` imports invariant finite generation (1926),
@@ -40,3 +41,10 @@ Lean build. The log checker alone also cannot authenticate a supplied log;
 it is the workflow's preceding successful Lean command and verified input
 pins that supply that context. This is a bounded selected-declaration check,
 not an independent replay of the entire Noether corpus or all of Mathlib.
+
+The first CI attempt found a setup error in this adapter: the composite Lean
+action required an existing `lake-manifest.json`. The workflow now installs
+the pinned toolchain explicitly and runs `lake update` before checking the
+resolved commits and fetching the cache. That initial setup failure is not a
+Noether proof failure, nor does this correction itself establish a successful
+Lean build.

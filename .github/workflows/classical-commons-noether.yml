@@ -5,11 +5,6 @@ on:
     paths:
       - 'classical-commons/**'
       - '.github/workflows/classical-commons-noether.yml'
-  push:
-    branches: [codex/classical-commons-noether-20260912]
-    paths:
-      - 'classical-commons/**'
-      - '.github/workflows/classical-commons-noether.yml'
   workflow_dispatch:
 
 permissions:
@@ -33,18 +28,24 @@ jobs:
         run: |
           python3 -m unittest discover -s classical-commons -p 'test_*.py' -v
           python3 classical-commons/check_pilot.py
-      - name: Install pinned toolchain and fetch Mathlib cache
-        uses: leanprover/lean-action@50fcf42d2e460296f1a34b402e990d1b24f8b596 # v1
-        with:
-          lake-package-directory: classical-commons/noether
-          auto-config: 'false'
-          build: 'false'
-          test: 'false'
-          lint: 'false'
-          use-mathlib-cache: 'true'
-          use-github-cache: 'false'
+      - name: Install elan and the pinned Lean toolchain
+        working-directory: classical-commons/noether
+        shell: bash
+        run: |
+          set -euo pipefail
+          curl --proto '=https' --tlsv1.2 -sSf https://raw.githubusercontent.com/leanprover/elan/0e36a07b9bbcc5381fa6250df109f9a4f94d7bac/elan-init.sh -o "$RUNNER_TEMP/elan-init.sh"
+          sh "$RUNNER_TEMP/elan-init.sh" -y --default-toolchain none
+          echo "$HOME/.elan/bin" >> "$GITHUB_PATH"
+          "$HOME/.elan/bin/lean" --version
+          "$HOME/.elan/bin/lake" --version
+      - name: Resolve the pinned dependency manifest
+        working-directory: classical-commons/noether
+        run: lake update
       - name: Verify resolved commits and selected source blobs
         run: python3 classical-commons/check_pilot.py --resolved
+      - name: Fetch Mathlib precompiled cache
+        working-directory: classical-commons/noether
+        run: lake exe cache get
       - name: Build selected Noether imports and print their axioms
         working-directory: classical-commons/noether
         shell: bash
