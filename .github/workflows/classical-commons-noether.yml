@@ -1,0 +1,56 @@
+name: Classical Commons - isolated Noether pilot
+
+on:
+  pull_request:
+    paths:
+      - 'classical-commons/**'
+      - '.github/workflows/classical-commons-noether.yml'
+  push:
+    branches: [codex/classical-commons-noether-20260912]
+    paths:
+      - 'classical-commons/**'
+      - '.github/workflows/classical-commons-noether.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: noether-pilot-${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  isolated-noether:
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    env:
+      LEAN_NUM_THREADS: '1'
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7
+        with:
+          persist-credentials: false
+      - name: Structural preflight and synthetic checker tests
+        run: |
+          python3 -m unittest discover -s classical-commons -p 'test_*.py' -v
+          python3 classical-commons/check_pilot.py
+      - name: Install pinned toolchain and fetch Mathlib cache
+        uses: leanprover/lean-action@50fcf42d2e460296f1a34b402e990d1b24f8b596 # v1
+        with:
+          lake-package-directory: classical-commons/noether
+          auto-config: 'false'
+          build: 'false'
+          test: 'false'
+          lint: 'false'
+          use-mathlib-cache: 'true'
+          use-github-cache: 'false'
+      - name: Verify resolved commits and selected source blobs
+        run: python3 classical-commons/check_pilot.py --resolved
+      - name: Build selected Noether imports and print their axioms
+        working-directory: classical-commons/noether
+        shell: bash
+        run: |
+          set -euo pipefail
+          lake -KmaxJobs=1 build ClassicalCommonsNoether
+          lake env lean --trust=0 -DwarningAsError=true Audit.lean | tee Audit.log
+      - name: Reject missing or nonstandard selected axiom reports
+        run: python3 classical-commons/check_pilot.py --axiom-log classical-commons/noether/Audit.log

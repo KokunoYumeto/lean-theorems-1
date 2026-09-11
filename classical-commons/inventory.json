@@ -1,0 +1,120 @@
+{
+  "schema": "classical-mathematics-commons/pilot-inventory/1",
+  "audit_date": "2026-09-12",
+  "proposal_status": "draft_opt_in_federation_not_monolithic_merge",
+  "fresh_lean_validation": "not_run_in_authoring_environment; require dedicated CI",
+  "host": {
+    "repository": "sneed-and-feed/lean-theorems-1",
+    "reviewed_commit": "4fce2c92ad4321064a06afdc86d0272bc625ce14",
+    "lean_toolchain": "leanprover/lean4:v4.34.0-rc1",
+    "default_build_modified": false
+  },
+  "noether": {
+    "repository": "KokunoYumeto/lean-mathematical-commons",
+    "commit": "8cdaca4421fd1fb3864b0d7b4ae6662065eeb194",
+    "package": "LeanOfTheMathematicalCommons",
+    "license": "Apache-2.0; dependency retains its own license and attribution",
+    "lean_toolchain": "leanprover/lean4:v4.31.0",
+    "mathlib_commit": "fabf563a7c95a166b8d7b6efca11c8b4dc9d911f",
+    "historical_graph_receipt": "artifacts/build/module-graph-checkpoint-20260829T2327308948138-d815b8e6.json",
+    "historical_coverage_snapshot": "artifacts/coordination/noether-coverage-snapshot-20260829.json",
+    "historical_reported_counts": {
+      "direct_imports": 55,
+      "targets_including_umbrellas": 57,
+      "works": 43,
+      "partially_audited_works": 21,
+      "inventoried_claim_rows": 343,
+      "available_claim_rows": 154,
+      "new_local_content_rows": 59,
+      "open_claim_rows": 189
+    },
+    "counts_caveat": "Reported by the pinned historical snapshot, not freshly recomputed proof coverage; claim rows are not declaration or paper counts.",
+    "selected_modules": [
+      {
+        "module": "MathematicalCommons.Noether.ModularInvariants1926",
+        "path": "MathematicalCommons/Noether/ModularInvariants1926.lean",
+        "git_blob_sha": "b1a1507076492ecbf0000ca98446c4b7aa01e640",
+        "scope": "Characteristic-free fixed-ring and intermediate-subalgebra finite generation."
+      },
+      {
+        "module": "MathematicalCommons.Noether.Idealtheorie1921",
+        "path": "MathematicalCommons/Noether/Idealtheorie1921.lean",
+        "git_blob_sha": "6172259642b8faef2d9b409aa6fa8a497896a114",
+        "scope": "Primary ideals, finite decomposition, associated-prime and positive-exponent packages; includes Mathlib wrappers."
+      },
+      {
+        "module": "MathematicalCommons.Noether.EliminationIdealTheorySurvey1924",
+        "path": "MathematicalCommons/Noether/EliminationIdealTheorySurvey1924.lean",
+        "git_blob_sha": "5b60d6e2f4cf313f2ba7d9c08522f5b29aacce11",
+        "scope": "Generic-zero kernel, generated fraction field and transcendence-degree bounds with explicit nonzero-prime condition for strictness."
+      }
+    ],
+    "axiom_audit_targets": [
+      "MathematicalCommons.Noether.ModularInvariants1926.subalgebra_finiteType_of_fixedPoints_le",
+      "MathematicalCommons.Noether.ModularInvariants1926.fixedPoints_finiteType",
+      "MathematicalCommons.Noether.Idealtheorie1921.primary_iff_ideal_product_or_power",
+      "MathematicalCommons.Noether.Idealtheorie1921.existsUnique_associatedPrime",
+      "MathematicalCommons.Noether.Idealtheorie1921.exists_least_associatedPrimeExponent",
+      "MathematicalCommons.Noether.EliminationIdealTheorySurvey1924.aeval_genericZero_eq_zero_iff_mem",
+      "MathematicalCommons.Noether.EliminationIdealTheorySurvey1924.intermediateField_adjoin_range_genericZero_eq_top",
+      "MathematicalCommons.Noether.EliminationIdealTheorySurvey1924.trdeg_genericZeroField_le_cardinalMk_range",
+      "MathematicalCommons.Noether.EliminationIdealTheorySurvey1924.trdeg_genericZeroField_fin_le",
+      "MathematicalCommons.Noether.EliminationIdealTheorySurvey1924.trdeg_genericZeroField_fin_lt_of_ne_bot"
+    ],
+    "allowed_axioms": [
+      "propext",
+      "Classical.choice",
+      "Quot.sound"
+    ]
+  },
+  "additional_inventory": [
+    {
+      "source": "KokunoYumeto/modern-latex-manuscripts",
+      "commit": "f7ff59b176c7dc3941babd4cb9272dffc653070d",
+      "path": "formalization/lean/classical_candidates_20260626/FORMALIZATION_MANIFEST.json",
+      "status": "historical_inventory_not_imported",
+      "notes": "Four green candidates: AffineGroup, JordanPrimitiveRoots, Steinitz, Weber. Treat source-shaped Mathlib wrappers and algebraic identities separately from new mathematical content."
+    },
+    {
+      "source": "KokunoYumeto/modern-latex-manuscripts",
+      "commit": "f7ff59b176c7dc3941babd4cb9272dffc653070d",
+      "path": "formalization/lean/classical_candidates_20260626/split_support_sidecar/SplitZero.lean",
+      "git_blob_sha": "ff991f7383922e71cdf0e4a3bc85e89e18f808ef",
+      "status": "quarantined_pending_fresh_build_and_transitive_axiom_audit",
+      "notes": "Historical manifest records exit 0 but no print-axioms audit. Core split-zero semiring and fixed-locus code, not completed scheme or localization theory."
+    },
+    {
+      "source": "KokunoYumeto/modern-latex-manuscripts",
+      "commit": "f7ff59b176c7dc3941babd4cb9272dffc653070d",
+      "path": "formalization/lean/classical_candidates_20260626/provenance_failed/ClassicalBatch2.lean",
+      "status": "excluded_recorded_failure",
+      "notes": "Historical manifest records stale API, nonzero exit and sorryAx. Not imported."
+    },
+    {
+      "source": "KokunoYumeto/modern-latex-manuscripts",
+      "commit": "f7ff59b176c7dc3941babd4cb9272dffc653070d",
+      "path": "sources/sga/SGA2_CURRENT_PUBLICATION.json",
+      "status": "source_corpus_only_not_a_lean_library",
+      "notes": "Indexes SGA readers and TeX, including SGA 4 1/2. New formalizations require source-to-statement mapping and independent build/axiom evidence."
+    },
+    {
+      "source": "sneed-and-feed/lean-theorems-1",
+      "path": "Formalization.lean",
+      "status": "existing_host_not_recertified",
+      "notes": "Prior community contribution is merged PR #5. Count it once, not again as a new addition from the contributor fork."
+    },
+    {
+      "source": "sneed-and-feed/lean-theorems-2",
+      "path": "README.md",
+      "status": "candidate_partner_inventory_only",
+      "notes": "README distinguishes verified suites from explicit-axiom research scaffolds; no wholesale import."
+    },
+    {
+      "source": "sneed-and-feed/lean-theorems-3",
+      "path": "README.md",
+      "status": "candidate_partner_inventory_only",
+      "notes": "Broad spectral/topological program; advertised theorem names are not sufficient evidence of complete formalization."
+    }
+  ],
+  "search_scope_caveat": "Bounded public repository/file/branch searches and selected source reads; not an exhaustive search of unuploaded sessions, every branch, every archive, or all user storage."
+}
