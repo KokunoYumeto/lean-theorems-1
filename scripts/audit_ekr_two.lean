@@ -1,0 +1,8 @@
+import Formalization.ErdosKoRadoEqualityTwo
+
+#print axioms two_uniform_center_unique
+#print axioms two_uniform_large_intersecting_isStar
+#print axioms uniform_star_eq_full_of_card_eq
+#print axioms erdos_ko_rado_uniqueness_two
+#print axioms erdos_ko_rado_equality_two
+#print axioms ekr_four_point_boundary_counterexample
