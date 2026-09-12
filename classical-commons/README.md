@@ -1,103 +1,40 @@
-# Classical Mathematics in Lean — collaboration pilot
+# Source-linked mathematics in Lean — collaboration pilot
 
-This is a proposed connection between the classical-theorem suites in this
-repository and the source-linked [Lean of the Mathematical Commons](https://github.com/KokunoYumeto/lean-mathematical-commons).
-It contributes a public inventory and an opt-in Noether workspace, not a
-wholesale repository merger, a new governance arrangement, or a claim that
-all listed mathematics is formalized. The maintainers can adopt the small
-pilot independently of the broader proposal.
+This proposed collection connects the host's classical-theorem suites with the source-linked [Lean of the Mathematical Commons](https://github.com/KokunoYumeto/lean-mathematical-commons) and a separate, explicitly research-originated SplitZero component. It does not presume agreement to merge repositories or maintainership, and does not call original research a classical theorem.
 
-**Status:** the three selected source files were read and the Python preflight
-and ten synthetic checker tests passed during preparation. The authoring
-environment did not have Lean. The dedicated Noether workflow must provide
-fresh compilation and selected-declaration axiom evidence before this pilot
-is represented as build-verified. Historical receipts are not a substitute.
+## Working components and fresh evidence
+
+The opt-in [Noether workspace](noether/README.md) imports three existing source-linked modules. [Run 34657761864](https://github.com/KokunoYumeto/lean-theorems-1/actions/runs/34657761864/job/103453744068) passed at `526f777c95ce56fc7093e333c85f58d7054efcd0`: dependency pins, all three source blobs, compilation, and ten selected transitive axiom reports. The generic-zero dependency emitted an existing style advisory, so this is not a blanket zero-warning claim.
+
+The opt-in [SplitZero component](splitzero/README.md) materializes the verified package from [Zeta PR #4](https://github.com/KokunoYumeto/zeta-function-research-reader/pull/4) without copying it into the host namespace or relicensing it. Its four extension modules and unchanged core passed [run 34660929635](https://github.com/KokunoYumeto/zeta-function-research-reader/actions/runs/34660929635/job/103463090151), including separate `--trust=0` checks and 28 selected axiom reports. The dedicated host-side workflow independently reproduces the checks. The latest exact run is required before claiming validation of a changed integration revision.
+
+These are bounded, executable components, not certification of the entirety of either repository.
 
 ## Recovered inventory and audit boundaries
 
-The machine-readable inventory is [inventory.json](inventory.json). Its
-Noether source is pinned to commit
-`8cdaca4421fd1fb3864b0d7b4ae6662065eeb194`.
+[inventory.json](inventory.json) preserves the original inventory snapshot. Its historical SplitZero status is superseded by `splitzero/source.json` and the verified source package; it is retained as history, not as the current validation status.
 
-| Collection | Evidence recovered | Treatment in this pilot |
+| Collection | Recovered scope | Treatment |
 | --- | --- | --- |
-| Noether library | A 55-import umbrella and a historical 57-target graph receipt, on Lean 4.31.0. The coverage snapshot inventories 43 works, with 21 partial audits and no complete paper audit. | Import three source-read modules in an isolated workspace. |
-| Noether claim ledger | 343 inventoried claim rows: 154 available/completed, including 95 Mathlib exact/modern rows and 59 newly completed local-content rows; 189 remain open. | Historical classifications, not freshly recomputed theorem counts or whole-corpus coverage. |
-| Hentzelt–Noether polynomial ideals/resultants | Substantial coordinate, regular-division, localization, saturation, Smith-module and annihilator/product developments. The README reports 576 declarations across its base and 38 support modules. | Inventory only. Helpers and conditional constructions do not establish the missing historical resultant/norm identifications or the complete paper. |
-| Older classical candidates | AffineGroup, JordanPrimitiveRoots, Steinitz and Weber have recorded successful historical checks. Three also occur as identical blobs in the older sidecar directory. | Do not count duplicates twice. Recheck statements, dependency axioms and reuse terms before importing. |
-| SplitZero | Concrete split-zero semiring, ring-reflection and fixed-locus source. Its historical manifest records a successful recheck but no printed-axiom audit. | Not imported; pending fresh compilation, axiom audit and reuse review. Not a completed scheme-theoretic development. |
-| ClassicalBatch2 | The historical manifest explicitly records a failed build, stale API and `sorryAx`. | Excluded, not promoted because it is preserved in the archive. |
-| SGA and adjacent editions | Reader/TeX source assets, including SGA 4½, are indexed publicly. | Source collection for future statement-level work, not an existing SGA Lean formalization. No source scans or translations are copied here. |
-| This repository and suites II/III | Existing classical suites and differing levels of scaffold completion. The earlier contribution in PR #5 is already merged here. | No recertification or duplicate credit. No bulk imports from the other suites. |
+| Noether library | 55 direct imports, historical 57-target graph; 43 works with 21 partial audits and no complete paper audit. | Three source-read modules imported separately; not a new full-graph certification. |
+| Noether claim ledger | 343 claim rows: 154 available/completed, including 95 Mathlib exact/modern and 59 locally completed-content rows; 189 open. | Historical classifications, not counts of new mathematical discoveries. |
+| Hentzelt–Noether | Substantial coordinate, regular-division, localization, saturation, Smith and annihilator/product code; reported 576 declarations in base plus 38 supports. | Inventory only. Historical norm/resultant and canonicity gaps remain explicit. |
+| Older classical candidates | AffineGroup, JordanPrimitiveRoots, Steinitz and Weber; three duplicate blobs elsewhere. | No duplicate counting; recheck before importing. |
+| SplitZero | Original core plus four freshly verified structural extension modules. | Opt-in research component: exact maps, support fibres, ideals and corrected presentation. Not a full scheme/analytic development. |
+| ClassicalBatch2 | Recorded failed build, stale API and `sorryAx`. | Excluded from promotion. |
+| SGA and adjacent editions | Extensive reader/TeX sources, including SGA 4½. | Sources for later exact statement mapping, not an existing SGA Lean library. |
+| Host and suites II/III | Classical suites with differing scaffold status; upstream PR #5 already accepted. | No blanket recertification or duplicate credit. |
 
-The [coverage snapshot](https://github.com/KokunoYumeto/lean-mathematical-commons/blob/8cdaca4421fd1fb3864b0d7b4ae6662065eeb194/artifacts/coordination/noether-coverage-snapshot-20260829.json)
-counts claim packages, not necessarily individual Lean declarations. Its
-whole-corpus percentages are planning estimates; they are not a measured
-percentage of Noether's mathematics proved. The repository's
-[latest historical graph receipt](https://github.com/KokunoYumeto/lean-mathematical-commons/blob/8cdaca4421fd1fb3864b0d7b4ae6662065eeb194/artifacts/build/module-graph-checkpoint-20260829T2327308948138-d815b8e6.json)
-reports 57 targets. Earlier README checkpoint headings should not override
-that more specific receipt.
+The Noether [coverage snapshot](https://github.com/KokunoYumeto/lean-mathematical-commons/blob/8cdaca4421fd1fb3864b0d7b4ae6662065eeb194/artifacts/coordination/noether-coverage-snapshot-20260829.json) counts claim packages, not necessarily single declarations. Whole-corpus percentages are planning estimates. The search for scattered files was bounded and does not rule out unuploaded code, unindexed branches or archived snippets.
 
-The older-file classifications come from the
-[classical-candidate manifest](https://github.com/KokunoYumeto/modern-latex-manuscripts/blob/f7ff59b176c7dc3941babd4cb9272dffc653070d/formalization/lean/classical_candidates_20260626/FORMALIZATION_MANIFEST.json).
-SGA assets are indexed in the
-[publication manifest](https://github.com/KokunoYumeto/modern-latex-manuscripts/blob/f7ff59b176c7dc3941babd4cb9272dffc653070d/sources/sga/SGA2_CURRENT_PUBLICATION.json).
-The search was bounded: it does not establish the absence of code in every
-branch, archive, or unuploaded working session.
+## Mathematical connection
 
-## Why these three modules
+Noether's `ModularInvariants1926` proves characteristic-free finite generation of fixed algebras, and of intermediate subalgebras containing the fixed algebra, by integrality followed by Artin–Tate. `Idealtheorie1921` packages primary ideals, associated primes and positive-power statements, partly using existing Mathlib. `EliminationIdealTheorySurvey1924` constructs generic zeros in fraction fields of prime coordinate rings, proves the exact evaluation kernel and field-generation statements, and correctly qualifies the strict transcendence-degree bound by nonzero primality.
 
-`ModularInvariants1926` proves finite generation of fixed subalgebras for
-finite group actions on finite-type commutative algebras over Noetherian
-bases, without a characteristic-zero hypothesis. More generally, every
-intermediate subalgebra containing the fixed subalgebra is finite type. This
-is a substantive integrality-to-Artin–Tate combination, not merely the
-statement that invariants are integral. It is a natural algebraic connection
-to finite-group invariant theory, but does not construct a particular
-icosahedral action, explicit generators, a Molien series, or a spectral law.
+SplitZero is the owner's research construction. Its ring reflection necessarily erases the distinction between supported and absent zero, whereas amplitude and Boolean support jointly retain it. Its semimodules carry support fibres that are genuine modules over the original ring, with coherent linear transports. The new package proves these structures rather than assuming them, and corrects the missing `[tau]=0` relation and ambient empty-join qualification. Classical analogues and any potential novelty require a separate priority comparison.
 
-`Idealtheorie1921` combines primary-ideal, associated-prime and positive-power
-statements. Some results are source-shaped wrappers around Mathlib; their
-historical correspondence is useful, but should not be presented as newly
-proved mathematics or a wholly new formalization of primary decomposition.
+## Integration boundary
 
-`EliminationIdealTheorySurvey1924` constructs the generic point in the
-fraction field of a prime coordinate ring: evaluation has precisely the
-specified prime kernel, and the coordinate images generate the field. It
-proves transcendence degree at most the number of variables; the strict
-inequality explicitly requires a nonzero prime ideal. This is reusable
-algebraic-geometry groundwork, not the formalization of SGA.
+The host remains Lean 4.34.0-rc1. Both optional components use independent Lean 4.31.0 workspaces and exact Mathlib/source pins. They are not a monolithic common-version library. The existing host Lake configuration, root imports, CI workflow, and theorem declarations are untouched. Noether retains Apache-2.0; SplitZero retains its source rights and attribution. This proposal does not relicense external sources under the host's license.
 
-## Integration without a forced version migration
-
-The host remains on Lean `4.34.0-rc1`. The separate
-[Noether workspace](noether/README.md) uses Lean `4.31.0`, exact Mathlib commit
-`fabf563a7c95a166b8d7b6efca11c8b4dc9d911f`, and the immutable Noether commit
-above. There are no changes to the host Lake configuration, root imports,
-existing CI, or theorem declarations. Noether remains a fetched dependency;
-its Apache-2.0 license and attribution remain in its own repository.
-
-The new workflow checks resolved Git commits and the selected source blobs,
-builds the three imports, and checks the transitive axiom reports of ten
-explicitly named declarations. Only `propext`, `Classical.choice` and
-`Quot.sound` are accepted. Missing reports fail. The ten Python tests exercise
-this checker; they do not compile Lean or prove the mathematics. Nor does
-checking these ten declarations certify every declaration in either library.
-
-## Suggested shared program
-
-A useful common project would keep one source-to-statement inventory while
-retaining independent, pinned builds until compatibility is demonstrated.
-Each addition should carry the original source locator, exact Lean statement,
-hypotheses, attribution, dependency pin, successful build, transitive axiom
-report and an honest category: existing Mathlib, new packaging, completed
-formalization, conditional support, or open target.
-
-After the pilot is checked, small ports of invariant-theory and
-coordinate-ring results would be more reviewable than copying the full
-Noether development. The next P22 work is the missing mathematical
-identification/invariance layer, not relabeling existing determinant helpers
-as a resultant. SGA can supply precisely selected targets only after checking
-its source statements and present Mathlib coverage. Combining libraries
-should preserve those boundaries rather than turn translations or
-scaffolds into completion claims.
+A shared programme should distinguish existing Mathlib coverage, new packaging, completed formalization, conditional support and open targets. Each promotion needs a source locator, exact statement and hypotheses, successful build, and transitive axiom evidence. Complete bounded work should be integrated without treating the unfinished remainder as either a certificate or a reason to discard it.
