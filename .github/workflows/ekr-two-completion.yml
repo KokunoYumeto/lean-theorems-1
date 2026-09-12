@@ -1,0 +1,44 @@
+name: EKR two-uniform completion
+on:
+  push:
+    branches: [codex/ekr-two-completion-20260912]
+    paths: ['Formalization.lean', 'Formalization/ErdosKoRadoEqualityTwo.lean', 'scripts/*ekr_two*', '.github/workflows/ekr-two-completion.yml']
+  pull_request:
+    paths: ['Formalization.lean', 'Formalization/ErdosKoRadoEqualityTwo.lean', 'scripts/*ekr_two*', '.github/workflows/ekr-two-completion.yml']
+permissions:
+  contents: read
+jobs:
+  ekr-two:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    env:
+      LEAN_NUM_THREADS: 1
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
+        with:
+          persist-credentials: false
+      - name: Install pinned toolchain and original Mathlib cache
+        shell: bash
+        run: |
+          set -euo pipefail
+          curl --proto '=https' --tlsv1.2 -sSf https://raw.githubusercontent.com/leanprover/elan/0e36a07b9bbcc5381fa6250df109f9a4f94d7bac/elan-init.sh -o "$RUNNER_TEMP/elan-init.sh"
+          sh "$RUNNER_TEMP/elan-init.sh" -y --default-toolchain none
+          export PATH="$HOME/.elan/bin:$PATH"
+          echo "$HOME/.elan/bin" >> "$GITHUB_PATH"
+          lean --version
+          lake exe cache get >EkrSetup.log 2>&1 || { tail -60 EkrSetup.log; exit 1; }
+          test "$(git -C .lake/packages/mathlib rev-parse HEAD)" = 20bc12820422504f9e52ee6caebf8182a9015336
+      - name: Build exact equality result and inspect its transitive axioms
+        shell: bash
+        run: |
+          set -euo pipefail
+          lake -KmaxJobs=1 build Formalization.ErdosKoRadoEqualityTwo >EkrBuild.log 2>&1 || { cat EkrBuild.log; exit 1; }
+          cat EkrBuild.log
+          lake env lean --trust=0 -DwarningAsError=true Formalization/ErdosKoRadoEqualityTwo.lean
+          lake env lean --trust=0 -DwarningAsError=true scripts/audit_ekr_two.lean | tee EkrAxioms.log
+          python3 scripts/check_ekr_two_axioms.py EkrAxioms.log
+      - name: Check integration in the original root library
+        shell: bash
+        run: |
+          lake -KmaxJobs=1 build Formalization >EkrRootBuild.log 2>&1 || { tail -120 EkrRootBuild.log; exit 1; }
+          tail -60 EkrRootBuild.log

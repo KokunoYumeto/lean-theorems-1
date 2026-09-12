@@ -5,6 +5,7 @@ import Formalization.BondyInducedSubsets
 import Formalization.DescartesSigns
 import Formalization.DeBruijnErdos
 import Formalization.ErdosKoRado
+import Formalization.ErdosKoRadoEqualityTwo
 import Formalization.SylvesterGallai
 import Formalization.HallMarriage
 import Formalization.FriendshipTheorem
