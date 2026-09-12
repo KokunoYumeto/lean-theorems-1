@@ -23,7 +23,12 @@ theorem two_uniform_center_unique (F : Finset (Finset α))
   have hpair : ({x, y} : Finset α).card = 2 := by simp [hxy]
   have hsub : F ⊆ ({{x, y}} : Finset (Finset α)) := by
     intro A hA
-    have hinc : ({x, y} : Finset α) ⊆ A := by simp [hx A hA, hy A hA]
+    have hinc : ({x, y} : Finset α) ⊆ A := by
+      intro z hz
+      simp only [Finset.mem_insert, Finset.mem_singleton] at hz
+      rcases hz with rfl | rfl
+      · exact hx A hA
+      · exact hy A hA
     have heq : ({x, y} : Finset α) = A :=
       Finset.eq_of_subset_of_card_le hinc (by rw [hpair, hF_two A hA])
     exact Finset.mem_singleton.mpr heq.symm
@@ -62,7 +67,7 @@ theorem erdos_ko_rado_uniqueness_two {n : ℕ}
     (F : Finset (Finset α)) (hF_two : ∀ A ∈ F, A.card = 2)
     (h_inter : ∀ A ∈ F, ∀ B ∈ F, ¬ Disjoint A B)
     (h_max : F.card = Nat.choose (n - 1) (2 - 1)) : IsStarFamily F := by
-  haveI : Nonempty α := Fintype.card_pos_iff.mp (by omega)
+  have : Nonempty α := Fintype.card_pos_iff.mp (by omega)
   have hc : F.card = n - 1 := by simpa using h_max
   exact two_uniform_large_intersecting_isStar F hF_two h_inter (by omega)
 
@@ -97,4 +102,9 @@ theorem ekr_four_point_boundary_counterexample :
       (∀ A ∈ F, A.card = 2) ∧
       (∀ A ∈ F, ∀ B ∈ F, ¬ Disjoint A B) ∧
       F.card = Nat.choose (4 - 1) (2 - 1) ∧ ¬ IsStarFamily F := by
-  refine ⟨{{0, 1}, {1, 2}, {0, 2}}, ?_, ?_, ?_, ?_⟩ <;> decide
+  refine ⟨{{0, 1}, {1, 2}, {0, 2}}, ?_, ?_, ?_, ?_⟩
+  · decide
+  · decide
+  · decide
+  · unfold IsStarFamily
+    decide

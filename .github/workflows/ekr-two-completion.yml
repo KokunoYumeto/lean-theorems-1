@@ -2,9 +2,9 @@ name: EKR two-uniform completion
 on:
   push:
     branches: [codex/ekr-two-completion-20260912]
-    paths: ['Formalization/ErdosKoRadoEqualityTwo.lean', 'scripts/*ekr_two*', '.github/workflows/ekr-two-completion.yml']
+    paths: ['Formalization.lean', 'Formalization/ErdosKoRadoEqualityTwo.lean', 'scripts/*ekr_two*', '.github/workflows/ekr-two-completion.yml']
   pull_request:
-    paths: ['Formalization/ErdosKoRadoEqualityTwo.lean', 'scripts/*ekr_two*', '.github/workflows/ekr-two-completion.yml']
+    paths: ['Formalization.lean', 'Formalization/ErdosKoRadoEqualityTwo.lean', 'scripts/*ekr_two*', '.github/workflows/ekr-two-completion.yml']
 permissions:
   contents: read
 jobs:
@@ -37,3 +37,8 @@ jobs:
           lake env lean --trust=0 -DwarningAsError=true Formalization/ErdosKoRadoEqualityTwo.lean
           lake env lean --trust=0 -DwarningAsError=true scripts/audit_ekr_two.lean | tee EkrAxioms.log
           python3 scripts/check_ekr_two_axioms.py EkrAxioms.log
+      - name: Check integration in the original root library
+        shell: bash
+        run: |
+          lake -KmaxJobs=1 build Formalization >EkrRootBuild.log 2>&1 || { tail -120 EkrRootBuild.log; exit 1; }
+          tail -60 EkrRootBuild.log
