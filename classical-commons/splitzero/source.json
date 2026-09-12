@@ -1,0 +1,31 @@
+{
+  "repository": "KokunoYumeto/zeta-function-research-reader",
+  "commit": "236f0a8370477991e2d0cf334ad1ebfe4f3f8b17",
+  "subdirectory": "formal/splitzero",
+  "structural_proof_checkpoint": "8196e4f4d4f09a8cfc8a4e8ce8683ded359adbf6",
+  "structural_proof_workflow_run": 34660929635,
+  "proof_checkpoint": "236f0a8370477991e2d0cf334ad1ebfe4f3f8b17",
+  "proof_workflow_run": 34662202595,
+  "structural_source_pr": "https://github.com/KokunoYumeto/zeta-function-research-reader/pull/4",
+  "classification": "owner-originated research construction; bounded formalization, not a classical theorem or global novelty claim",
+  "selected_structural_axiom_reports": 28,
+  "synchronization_named_axiom_reports": 19,
+  "files": ["SplitZeroExtension.lean", "SplitZeroFibres.lean", "SplitZeroPresentation.lean", "SplitZeroMaps.lean", "SplitZeroSynchronization.lean", "Audit.lean", "check_axioms.py", "prepare.py", "test_axioms.py", "check_synchronization.py", "test_synchronization_checker.py", "lakefile.toml", "lean-toolchain", "README.md", "MATHEMATICAL_NOTE.md", "VALIDATION.json", "SYNCHRONIZATION.md"],
+  "sha256": {
+    "SplitZeroExtension.lean": "2cfe31504cf9bbc499d6deb310495507b7065b7fb0cc88d482a3c87d16bf65b2",
+    "SplitZeroFibres.lean": "5df44f22b9a954439bc04cacf4e985bdc52dcfa744c6ad93b74dc1cd3eb8d68f",
+    "SplitZeroPresentation.lean": "a311254ac88316f13d3419f5da479d0a7dfa1c1e421660cba4ae3e6499a2bc82",
+    "SplitZeroMaps.lean": "57496c3a2756cf0d5e0245a3f95807af9b9efe7753327b744bf084498b990edd",
+    "Audit.lean": "b7f28f86af3d2d9f253b9e3a883b23e89a0e4cfe7cdea01c8429a5a5d7b1f2ee",
+    "check_axioms.py": "07217ed13a07e928e3519b48c5dbcd6fe4cd3969d7092e76234bb3a42905c829",
+    "prepare.py": "90b671438d4b8209237ac0289a66582719eb58e5c1bf01ed037902e6a79b0d8d",
+    "lean-toolchain": "efac0b94923b2d8b6840cd35be9177ad0fc5ab2332f4f4311c98712cee92fdee"
+  },
+  "git_blob": {
+    "SplitZeroSynchronization.lean": "c884ae59be8d5fa3cee4a7fe590acf3874c91567",
+    "check_synchronization.py": "c06f8a924c8257fb972f685d33a9e680f022c306",
+    "test_synchronization_checker.py": "b5a84e8803a1b7447b856e14f05d6ccded1f12f2",
+    "lakefile.toml": "ac5db9ef9a5bf83c659814bc761d8cdf8e621638"
+  },
+  "original_core_sha256": "09f8ddf866687f93f384fd234975d1012dffdd6903782095901916607f042f48"
+}
