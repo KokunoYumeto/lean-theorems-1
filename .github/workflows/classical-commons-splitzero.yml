@@ -7,6 +7,7 @@ permissions:
 jobs:
   splitzero:
     runs-on: ubuntu-latest
+    timeout-minutes: 20
     env:
       LEAN_NUM_THREADS: 1
     steps:
@@ -32,16 +33,20 @@ jobs:
           lake update
           test "$(git -C .lake/packages/mathlib rev-parse HEAD)" = fabf563a7c95a166b8d7b6efca11c8b4dc9d911f
           lake exe cache get
-      - name: Build, kernel-check, and audit axioms
+      - name: Build, kernel-check, and audit structural and synchronization results
         working-directory: classical-commons/splitzero/.workspace
         shell: bash
         run: |
           set -euo pipefail
           lake -KmaxJobs=1 build 2>&1 | tee Build.log
           lake env lean --trust=0 SplitZero.lean
-          for f in SplitZeroExtension.lean SplitZeroFibres.lean SplitZeroPresentation.lean SplitZeroMaps.lean; do
+          for f in SplitZeroExtension.lean SplitZeroFibres.lean SplitZeroPresentation.lean SplitZeroMaps.lean SplitZeroSynchronization.lean; do
             lake env lean --trust=0 -DwarningAsError=true "$f"
           done
           lake env lean --trust=0 -DwarningAsError=true Audit.lean | tee Audit.log
           python3 check_axioms.py Audit.log
           python3 test_axioms.py -v
+          python3 -m unittest -v test_synchronization_checker.py
+          python3 check_synchronization.py --prepare
+          lake env lean --trust=0 -DwarningAsError=true AuditSynchronization.lean | tee AuditSynchronization.log
+          python3 check_synchronization.py --log AuditSynchronization.log

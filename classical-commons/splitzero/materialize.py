@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Materialize the exact, independently verified SplitZero source workspace.
+"""Materialize the exact SplitZero source workspace and verify declared byte pins.
 
 Existing conflicting files are never overwritten. No host Lean configuration is changed.
 """
@@ -20,6 +20,18 @@ def main() -> None:
         raise ValueError('The source commit must be an immutable Git SHA')
     if spec['repository'] != 'KokunoYumeto/zeta-function-research-reader':
         raise ValueError('Unexpected source repository')
+    sha_pins = spec['sha256']
+    blob_pins = spec.get('git_blob', {})
+    required = {
+        'SplitZeroExtension.lean', 'SplitZeroFibres.lean', 'SplitZeroPresentation.lean',
+        'SplitZeroMaps.lean', 'SplitZeroSynchronization.lean', 'Audit.lean',
+        'check_axioms.py', 'prepare.py', 'check_synchronization.py',
+        'test_synchronization_checker.py', 'lakefile.toml', 'lean-toolchain',
+    }
+    if not required <= set(sha_pins) | set(blob_pins):
+        raise ValueError('Required proof/configuration file is missing a byte pin')
+    if not required <= set(spec['files']):
+        raise ValueError('Required proof/configuration file is missing from the materialization list')
     target = ROOT / '.workspace'
     target.mkdir(exist_ok=True)
     for name in spec['files']:
@@ -30,10 +42,14 @@ def main() -> None:
         with urllib.request.urlopen(url, timeout=60) as response:
             data = response.read()
         data.decode('utf-8')
-        expected = spec['sha256'].get(name)
+        expected = sha_pins.get(name)
         actual = hashlib.sha256(data).hexdigest()
         if expected is not None and actual != expected:
-            raise ValueError(f'Verified source hash mismatch: {name}')
+            raise ValueError(f'Verified source SHA-256 mismatch: {name}')
+        expected_blob = blob_pins.get(name)
+        actual_blob = hashlib.sha1(b'blob ' + str(len(data)).encode() + b'\0' + data).hexdigest()
+        if expected_blob is not None and actual_blob != expected_blob:
+            raise ValueError(f'Verified source Git blob mismatch: {name}')
         dest = target / name
         if dest.exists() and dest.read_bytes() != data:
             raise ValueError(f'Refusing to overwrite conflicting file: {dest}')
@@ -42,7 +58,7 @@ def main() -> None:
     actual = hashlib.sha256((target / 'SplitZero.lean').read_bytes()).hexdigest()
     if actual != spec['original_core_sha256']:
         raise ValueError('Original SplitZero core SHA-256 mismatch')
-    print(f"Verified {len(spec['sha256'])} pinned code/config files and the original core")
+    print(f"Verified {len(set(sha_pins) | set(blob_pins))} pinned code/config files and the original core")
     print(f"Workspace: {target}")
 
 if __name__ == '__main__':
